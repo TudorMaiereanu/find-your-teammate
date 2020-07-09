@@ -5,7 +5,6 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 
 import { StartPageView } from './views/StartPageView';
 import { AboutPageView } from "./views/AboutPageView";
-import { PriorityPageView } from "./views/PriorityPageView";
 
 
 export default class App extends React.Component {
@@ -18,7 +17,6 @@ export default class App extends React.Component {
             routes: [
                 { component: AboutPageView , path: '/about'},
                 { component: StartPageView , path: '/', exact: true},
-                { component: PriorityPageView, path: '/match'},
             ]
         };
     }

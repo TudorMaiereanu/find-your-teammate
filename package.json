@@ -31,8 +31,8 @@
     "webpack-merge": "4.1.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.1",
     "bootstrap": "^4.5.0",
-    "bootstrap-icons": "^1.0.0-alpha4",
     "react": "16.8.4",
     "react-daterange-picker": "^2.0.1",
     "react-dom": "16.8.4",

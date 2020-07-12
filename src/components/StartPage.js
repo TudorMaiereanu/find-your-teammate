@@ -5,6 +5,14 @@ import React, {useState, useEffect} from 'react';
 import MultiSelect from "react-multi-select-component";
 import Page from './Page';
 import qualityDictionary from "./constants/qualities.json";
+import { css } from "@emotion/core";
+import GridLoader from "react-spinners/GridLoader";
+import HashLoader from "react-spinners/HashLoader";
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+`;
 
 const SearchBox = () => {
     const options = Object.keys(qualityDictionary).map(item => {
@@ -51,6 +59,24 @@ const SearchBox = () => {
     );
 };
 
+class Delayed extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {hidden : true};
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({hidden: false});
+        }, this.props.waitBeforeShow);
+    }
+
+    render() {
+        return this.state.hidden ? '' : this.props.children;
+    }
+}
+
+
 class StartPage extends React.Component {
 
     constructor(props) {
@@ -59,13 +85,43 @@ class StartPage extends React.Component {
         this.state = {
             node: null,
             isMatch: false,
+            divLoaderStyle: 'text-center',
+            startLoadingQualities: false,
+            startLoadingTeammate: false,
         };
 
         this.onFindMatchClick = this.onFindMatchClick.bind(this);
-        // this.handlClickOutside = this.handlClickOutside.bind(this);
+        this.onRestartClick = this.onRestartClick.bind(this);
+        this.loadQualities = this.loadQualities.bind(this);
+        this.loadTeammate = this.loadTeammate.bind(this);
     }
 
     onFindMatchClick() {
+        this.setState({
+            isMatch: !this.state.isMatch,
+        })
+        this.loadQualities();
+    }
+
+    loadQualities() {
+        this.setState({
+            startLoadingQualities: true,
+        });
+        setTimeout(() => {
+            this.setState({startLoadingQualities: false})
+            this.loadTeammate();
+        } 
+        , 2000);
+    }
+
+    loadTeammate() {
+        this.setState({
+            startLoadingTeammate: true,
+        })
+        setTimeout(() => this.setState({startLoadingTeammate: false}), 2000);
+    }
+
+    onRestartClick() {
         this.setState({
             isMatch: !this.state.isMatch,
         })
@@ -95,15 +151,45 @@ class StartPage extends React.Component {
                             </div>
                         :
                             <div>
-                                <p className="h2 text-center" style={{paddingTop: "100px"}}>
-                                    It's a match
-                                </p>
-                                <div className="text-center" style={{paddingBottom: "50px"}}>
-                                    <button className="btn btn-secondary" style={{backgroundColor:"grey"}} onClick={this.onFindMatchClick}>
-                                        <i class="fas fa-redo-alt"></i>
-                                    </button>
-                                </div>
-                                <p className="h1 text-center text-success">Leon Schulz</p>
+                                {this.state.startLoadingQualities
+                                    ?
+                                        <div className={this.state.divLoaderStyle} style={{paddingTop: "100px"}}>
+                                            <p className="h2 mb-5">Searching for the qualities selected...</p>
+                                            <GridLoader
+                                                css={override}
+                                                size={40}
+                                                color={"#123abc"}
+                                                loading={true}
+                                            />
+                                        </div>
+                                    :
+                                        null
+                                }
+                                {this.state.startLoadingTeammate
+                                    ?
+                                        <div className={this.state.divLoaderStyle} style={{paddingTop: "100px"}}>
+                                            <p className="h2 mb-5">Searching for the ideal teammate...</p>
+                                            <HashLoader
+                                                css={override}
+                                                size={80}
+                                                color={"#123abc"}
+                                                loading={true}
+                                            />
+                                        </div>
+                                    :
+                                        null
+                                }
+                                <Delayed waitBeforeShow={4000}>
+                                    <p className="h2 text-center" style={{paddingTop: "100px"}}>
+                                        It's a match
+                                    </p>
+                                    <div className="text-center" style={{paddingBottom: "50px"}}>
+                                        <button className="btn btn-secondary" style={{backgroundColor:"grey"}} onClick={this.onRestartClick}>
+                                            <i class="fas fa-redo-alt"></i>
+                                        </button>
+                                    </div>
+                                    <p className="h1 text-center text-success">Leon Schulz</p>
+                                </Delayed>
                             </div>
                     }
                 </div>

@@ -14,6 +14,8 @@ const override = css`
   margin: 0 auto;
 `;
 
+let globalSelectedList;
+
 const SearchBox = () => {
     const options = Object.keys(qualityDictionary).map(item => {
         return {
@@ -23,6 +25,7 @@ const SearchBox = () => {
     });
    
     const [selected, setSelected] = useState([]);
+    globalSelectedList = selected;
 
     selected.sort(function(a, b) {
         if(a.label.toLowerCase() < b.label.toLowerCase()) return -1;
@@ -85,7 +88,6 @@ class StartPage extends React.Component {
         this.state = {
             node: null,
             isMatch: false,
-            divLoaderStyle: 'text-center',
             startLoadingQualities: false,
             startLoadingTeammate: false,
         };
@@ -153,7 +155,7 @@ class StartPage extends React.Component {
                             <div>
                                 {this.state.startLoadingQualities
                                     ?
-                                        <div className={this.state.divLoaderStyle} style={{paddingTop: "100px"}}>
+                                        <div className="text-center" style={{paddingTop: "100px"}}>
                                             <p className="h2 mb-5">Searching for the qualities selected...</p>
                                             <GridLoader
                                                 css={override}
@@ -167,7 +169,7 @@ class StartPage extends React.Component {
                                 }
                                 {this.state.startLoadingTeammate
                                     ?
-                                        <div className={this.state.divLoaderStyle} style={{paddingTop: "100px"}}>
+                                        <div className="text-center" style={{paddingTop: "100px"}}>
                                             <p className="h2 mb-5">Searching for the ideal teammate...</p>
                                             <HashLoader
                                                 css={override}
@@ -184,11 +186,34 @@ class StartPage extends React.Component {
                                         It's a match
                                     </p>
                                     <div className="text-center" style={{paddingBottom: "50px"}}>
-                                        <button className="btn btn-secondary" style={{backgroundColor:"grey"}} onClick={this.onRestartClick}>
+                                        <button className="btn btn-secondary mb-5" style={{backgroundColor:"grey"}} onClick={this.onRestartClick}>
                                             <i class="fas fa-redo-alt"></i>
                                         </button>
+                                        <p className="h1 text-success mb-4">Leon Schulz</p>
+                                        <img
+                                            className="text-center"
+                                            src="https://media-exp1.licdn.com/dms/image/C4D03AQGnBKoKlYTDnA/profile-displayphoto-shrink_800_800/0?e=1600300800&v=beta&t=LGqy545XrQcX1fV2Q-AAmfpu4dXkdWS_31B0VoZEyM8"
+                                            style={{width: "300px", borderRadius: "150px"}}
+                                        />
+                                        <div className="col mt-5" style={{maxHeight:"300px", overflowY:"scroll"}}>
+                                            {globalSelectedList.map((item) =>
+                                                <div className="row justify-content-center">
+                                                    <i class="fas fa-check"></i>
+                                                    <p className="h5">
+                                                        {qualityDictionary[item.label]}
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary mt-5"
+                                            style={{borderRadius: "20px"}}
+                                            onClick={() => {location.href = 'https://www.linkedin.com/in/leon-schulz/'}}
+                                        >
+                                            <p className="h4 p-2 my-auto">Check out my LinkedIn profile</p>
+                                        </button>
                                     </div>
-                                    <p className="h1 text-center text-success">Leon Schulz</p>
                                 </Delayed>
                             </div>
                     }

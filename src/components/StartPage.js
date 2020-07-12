@@ -183,36 +183,46 @@ class StartPage extends React.Component {
                                 }
                                 <Delayed waitBeforeShow={4000}>
                                     <p className="h2 text-center" style={{paddingTop: "100px"}}>
-                                        It's a match
+                                        It's a match!
                                     </p>
                                     <div className="text-center" style={{paddingBottom: "50px"}}>
-                                        <button className="btn btn-secondary mb-5" style={{backgroundColor:"grey"}} onClick={this.onRestartClick}>
-                                            <i class="fas fa-redo-alt"></i>
-                                        </button>
                                         <p className="h1 text-success mb-4">Leon Schulz</p>
                                         <img
                                             className="text-center"
                                             src="https://media-exp1.licdn.com/dms/image/C4D03AQGnBKoKlYTDnA/profile-displayphoto-shrink_800_800/0?e=1600300800&v=beta&t=LGqy545XrQcX1fV2Q-AAmfpu4dXkdWS_31B0VoZEyM8"
                                             style={{width: "300px", borderRadius: "150px"}}
                                         />
-                                        <div className="col mt-5" style={{maxHeight:"300px", overflowY:"scroll"}}>
-                                            {globalSelectedList.map((item) =>
-                                                <div className="row justify-content-center">
-                                                    <i class="fas fa-check"></i>
-                                                    <p className="h5">
-                                                        {qualityDictionary[item.label]}
-                                                    </p>
-                                                </div>
-                                            )}
+                                        <div className="container border bg-white p-3 mt-5" style={{width: "500px"}}>
+                                            <div className="col" style={{maxHeight:"300px", overflowY:"scroll"}}>
+                                                {globalSelectedList.map((item) =>
+                                                    <div className="row justify-content-center">
+                                                        <p className="h5 text-left py-2" style={{width:"400px"}}>
+                                                            {qualityDictionary[item.label]}
+                                                        </p>
+                                                        <i class="fas fa-check my-auto" style={{color: "green"}}></i>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary mt-5"
-                                            style={{borderRadius: "20px"}}
-                                            onClick={() => {location.href = 'https://www.linkedin.com/in/leon-schulz/'}}
-                                        >
-                                            <p className="h4 p-2 my-auto">Check out my LinkedIn profile</p>
-                                        </button>
+                                        <div>
+                                            <button
+                                                type="submit"
+                                                className="btn btn-primary mt-5"
+                                                style={{borderRadius: "20px"}}
+                                                onClick={() => {location.href = 'https://www.linkedin.com/in/leon-schulz/'}}
+                                            >
+                                                <p className="h4 p-2 my-auto">Check out LinkedIn profile</p>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button 
+                                                className="btn btn-primary mt-3 bg-dark border-0"
+                                                style={{borderRadius: "20px"}}
+                                                onClick={this.onRestartClick}
+                                            >
+                                                Search again <i class="fas fa-redo-alt"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </Delayed>
                             </div>
